@@ -1,0 +1,63 @@
+#include <stdio.h>
+
+int main() {
+    int choice;
+    char filename[50];
+    FILE *fp;
+
+    do {
+        printf("File Management System:\n");
+        printf("1. Create a new file\n");
+        printf("2. Modify an existing file\n");
+        printf("3. Delete a file\n");
+        printf("4. Exit the program\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the name of the file to create: ");
+                scanf("%s", filename);
+                fp = fopen(filename, "w");
+                if (fp == NULL) {
+                    printf("Error: could not create file %s\n", filename);
+                } else {
+                    printf("File %s created successfully\n", filename);
+                    fclose(fp);
+                }
+                break;
+            case 2:
+                printf("Enter the name of the file to modify: ");
+                scanf("%s", filename);
+                fp = fopen(filename, "a");
+                if (fp == NULL) {
+                    printf("Error: could not open file %s\n", filename);
+                } else {
+                    char text[100];
+                    printf("Enter the text to append to the file:\n");
+                    scanf(" %[^\n]", text);
+                    fprintf(fp, "%s\n", text);
+                    printf("Text added to file %s successfully\n", filename);
+                    fclose(fp);
+                }
+                break;
+            case 3:
+                printf("Enter the name of the file to delete: ");
+                scanf("%s", filename);
+                if (remove(filename) == 0) {
+                    printf("File %s deleted successfully\n", filename);
+                } else {
+                    printf("Error: could not delete file %s\n", filename);
+                }
+                break;
+            case 4:
+                printf("Exiting the program...\n");
+                break;
+            default:
+                printf("Invalid choice. Please enter a number from 1 to 4.\n");
+                break;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
